@@ -55,8 +55,6 @@ public class GameApp extends ApplicationAdapter {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		
-		
-		
 		batch.begin();
 		imgSprite.draw(batch);
 		batch.end();
