@@ -16,11 +16,7 @@
 */
 package com.divergentthoughtsgames.ld31;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
@@ -32,8 +28,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;

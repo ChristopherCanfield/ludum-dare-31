@@ -19,12 +19,15 @@ package com.divergentthoughtsgames.ld31;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.World;
+import com.divergentthoughtsgames.ld31.nav.Edge;
+import com.divergentthoughtsgames.ld31.nav.Node;
 
 public class GameWorld
 {
@@ -34,6 +37,12 @@ public class GameWorld
 	
 	private static BufferedImage collisionMap;
 	
+	private static List<Node> nodeList;
+	private static Node[][] nodes;
+	
+	private static int columns = 1920/Node.Size;
+	private static int rows = 1080/Node.Size;
+	
 	public static void initialize()
 	{
 		try {
@@ -42,6 +51,10 @@ public class GameWorld
 			e.printStackTrace();
 			Gdx.app.exit();
 		}
+		
+		nodeList = new ArrayList<Node>();
+		nodes = new Node[columns][rows];
+		createNavGraph(nodeList, nodes, columns, rows);
 	}
 	
 	public static boolean isPassable(float x, float y)
@@ -57,8 +70,71 @@ public class GameWorld
 		return collisionMap.getRGB(adjustedX, adjustedY) != -16777216;
 	}
 	
-	private static void createNavMap()
+	/**
+	 * Creates the structure of the navigation graph.
+	 * @param nodeList an instantiated list that will be populated with the navigation nodes.
+	 * @param nodes a 2-dimensional array that will be populated with the navigation nodes, in 
+	 * [column][row] notation. The array bounds must be equal to the number of columns and rows in 
+	 * the map. 
+	 * @param columns the number of columns in the map.
+	 * @param rows the number of rows in the map.
+	 */
+	private static void createNavGraph(List<Node> nodeList, Node[][] nodes, int columns, int rows)
 	{
+		// Build the navigation graph. 0,0 = bottom left.
+		// For now, the navigation graph has one node per map cell, but this may change in the future.
+		for (int row = 0; row < rows; ++row)
+		{
+			for (int column = 0; column < columns; ++column)
+			{
+				Node node = new Node(column * Node.Size, row * Node.Size);
+				nodeList.add(node);
+				nodes[column][row] = node;
+				addEdges(nodes, row, column, columns);
+			}
+		}
+	}
+	
+	/**
+	 * Adds edges to the specified nodes.
+	 * @param nodes the navigation graph, in [column][row] order.
+	 * @param row the node's row.
+	 * @param column the node's column.
+	 * @param columns the number of columns in the navigation graph.
+	 */
+	private static void addEdges(Node[][] nodes, int row, int column, int columns)
+	{
+		Node node = nodes[column][row];
 		
+		// Add down.
+		if (row > 0)
+		{
+			Edge edge = new Edge(1);
+			edge.addNode(node).addNode(nodes[column][row - 1]);
+		}
+		
+		// Add left.
+		if (column > 0)
+		{
+			Edge edge = new Edge(1);
+			edge.addNode(node).addNode(nodes[column - 1][row]);
+		}
+		
+		// Add lower-left diagonal.
+		if (row > 0 && column > 0)
+		{
+			Edge edge = new Edge(1.4);
+			edge.addNode(node).addNode(nodes[column - 1][row - 1]);
+		}
+		
+		// Add lower-right diagonal.
+		if (row > 0 && column < columns - 1)
+		{
+			if (nodes[column + 1][row - 1] != null)
+			{
+				Edge edge = new Edge(1.4);
+				edge.addNode(node).addNode(nodes[column + 1][row - 1]);
+			}
+		}
 	}
 }

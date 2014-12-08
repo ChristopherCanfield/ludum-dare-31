@@ -32,7 +32,7 @@ Copyright 2014 Christopher D. Canfield
 public class Node
 {
 	/** The nav graph node size. **/
-	public static int Size = 64;
+	public static int Size = 12;
 	
 	/** The nav graph node half size. **/
 	public static int HalfSize = Size / 2;
