@@ -99,7 +99,17 @@ public class Organism
 		if (target == null)
 		{
 			setTarget();
+			return;
 		}
+
+		sprite.setPosition(sprite.getX() + movementVector.x, sprite.getY() + movementVector.y);
+		if (sprite.getBoundingRectangle().overlaps(target.getBounds()))
+		{
+			System.out.println("Overlaps");
+			target = path.poll();
+			calculateMovementVectors();
+		}
+		System.out.println("Sprite: " + sprite.getX() + "," + sprite.getY() + "; Target: " + target.getX() + "," + target.getY());
 	}
 	
 	public void drawPath(ShapeRenderer shapeRenderer)
@@ -122,13 +132,32 @@ public class Organism
 	
 	private void setTarget()
 	{
-		target = GameWorld.nodes[50][30];
-		path = Search.aStar(currentNode(), target);
+		Node finalTarget = getPassableTarget();
+		path = Search.aStar(currentNode(), finalTarget);
+		target = path.poll();
 		calculateMovementVectors();
+	}
+	
+	private static Node getPassableTarget()
+	{
+		Node node = null;
+		while (node == null)
+		{
+			int row = MathUtils.random(GameWorld.rows - 1);
+			int column = MathUtils.random(GameWorld.columns - 1);
+			
+			if (GameWorld.nodes[column][row].isPassable())
+			{
+				node = GameWorld.nodes[column][row];
+			}
+		}
+		return node;
 	}
 	
 	private void calculateMovementVectors()
 	{
+		if (target == null) return;
+		
 		Node target = path.peek();
 		float x = sprite.getX() + sprite.getWidth() / 2.f;
 		float y = sprite.getY() + sprite.getHeight() / 2.f;

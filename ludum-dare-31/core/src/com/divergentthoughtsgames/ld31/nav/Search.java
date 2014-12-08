@@ -24,6 +24,8 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
+import com.divergentthoughtsgames.ld31.Screen;
+
 /**
  * Contains a method that implements the A* search algorithm.
  * @author Christopher D. Canfield
@@ -138,14 +140,25 @@ public abstract class Search
 	
 	private static double calculateCost(Node start, Node end)
 	{
-		double startRow = start.getCenterY();
-		double endRow = end.getCenterY();
-		double startColumn = start.getCenterX();
-		double endColumn = end.getCenterX();
+//		double startRow = start.getCenterY();
+//		double endRow = end.getCenterY();
+//		double startColumn = start.getCenterX();
+//		double endColumn = end.getCenterX();
 
-		double rowSquared = (startRow - endRow) * (startRow - endRow);
-		double columnSquared = (startColumn - endColumn) * (startColumn - endColumn);
-
-		return Math.sqrt(rowSquared + columnSquared);
+		final double D = 1;
+		
+		final double startX = start.getColumnIndex();
+		final double startY = start.getRowIndex();
+		final double endX = end.getColumnIndex();
+		final double endY = end.getRowIndex();
+		
+		double dx = Math.abs(startX - endX);
+		double dy = Math.abs(startY - endY);
+		return D * Math.sqrt(dx * dx + dy * dy);
+		
+//		double rowSquared = (startRow - endRow) * (startRow - endRow);
+//		double columnSquared = (startColumn - endColumn) * (startColumn - endColumn);
+//
+//		return Math.sqrt(rowSquared + columnSquared);
 	}
 }
