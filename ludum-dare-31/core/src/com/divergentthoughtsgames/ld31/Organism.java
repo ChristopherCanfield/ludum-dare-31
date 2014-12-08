@@ -109,7 +109,6 @@ public class Organism
 			target = path.poll();
 			calculateMovementVectors();
 		}
-		System.out.println("Sprite: " + sprite.getX() + "," + sprite.getY() + "; Target: " + target.getX() + "," + target.getY());
 	}
 	
 	public void drawPath(ShapeRenderer shapeRenderer)

@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -50,6 +51,9 @@ public class GameApp extends ApplicationAdapter {
 	
 	public boolean showPath;
 	public boolean showNodes;
+	public boolean logFramesPerSecond;
+	
+	private BitmapFont font;
 	
 	@Override
 	public void create () {
@@ -85,6 +89,8 @@ public class GameApp extends ApplicationAdapter {
 	    GameWorld.organisms = new ArrayList<Organism>();
 	    GameWorld.organisms.add(new Organism());
 	    GameWorld.organisms.get(0).setX(Screen.Zero.x + 100).setY(Screen.Zero.y + 300);
+	    
+	    font = new BitmapFont(Gdx.files.internal("arial_28_outlined.fnt"), Gdx.files.internal("arial_28_outlined.png"), false);
 	}
 
 	@Override
@@ -101,24 +107,57 @@ public class GameApp extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 		rayHandler.setCombinedMatrix(camera.combined);
 		
+		drawMap();
+		
+		drawOrganisms();
+		
+		shapeRenderer.setProjectionMatrix(camera.combined);
+		
+		drawNodes();
+		drawPaths();
+		
+		if (appState == AppState.Active)
+		{
+			rayHandler.updateAndRender();
+		}
+		
+		drawUi();
+		
+		GameWorld.physicsWorld.step(1/60f, 6, 2);
+		
+		if (logFramesPerSecond)
+		{
+			fpsLogger.log();
+		}
+	}
+	
+	private void drawMap()
+	{
 		batch.begin();
 		batch.draw(Textures.map, Screen.Zero.x, Screen.Zero.y);
 		batch.end();
-		
+	}
+	
+	private void drawOrganisms()
+	{
 		batch.begin();
 		for (Organism o : GameWorld.organisms)
 		{
 			o.draw(batch);
 		}
 		batch.end();
-		
-		shapeRenderer.setProjectionMatrix(camera.combined);
-		
+	}
+	
+	private void drawNodes()
+	{
 		if (showNodes)
 		{
 			GameWorld.drawNodes(shapeRenderer);
 		}
-		
+	}
+	
+	private void drawPaths()
+	{
 		if (showPath)
 		{
 			for (Organism o : GameWorld.organisms)
@@ -126,15 +165,13 @@ public class GameApp extends ApplicationAdapter {
 				o.drawPath(shapeRenderer);
 			}
 		}
-		
-		if (appState == AppState.Active)
-		{
-			rayHandler.updateAndRender();
-		}
-		
-		GameWorld.physicsWorld.step(1/60f, 6, 2);
-		
-		fpsLogger.log();
+	}
+	
+	private void drawUi()
+	{
+		batch.begin();
+		font.draw(batch, "Test help", 250, 100);
+		batch.end();
 	}
 	
 	@Override

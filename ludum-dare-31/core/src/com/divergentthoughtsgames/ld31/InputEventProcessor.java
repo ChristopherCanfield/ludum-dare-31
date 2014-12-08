@@ -65,11 +65,14 @@ public class InputEventProcessor extends InputAdapter
  	{
 		switch (keycode)
 		{
-		case Keys.NUM_1:
+		case Keys.F1:
 			app.showPath = !app.showPath;
 			break;
-		case Keys.NUM_2:
+		case Keys.F2:
 			app.showNodes = !app.showNodes;
+			break;
+		case Keys.F3:
+			app.logFramesPerSecond = !app.logFramesPerSecond;
 			break;
 		}
 		
