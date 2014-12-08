@@ -25,6 +25,9 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.divergentthoughtsgames.ld31.nav.Edge;
 import com.divergentthoughtsgames.ld31.nav.Node;
@@ -67,7 +70,24 @@ public class GameWorld
 		int adjustedX = Math.round(x - Screen.Zero.x);
 		int adjustedY = Math.round(collisionMap.getHeight() - (y - Screen.Zero.y));
 		
+		System.out.println(adjustedX + "," + adjustedY + " (" + x + "," + y + ")");
 		return collisionMap.getRGB(adjustedX, adjustedY) != -16777216;
+	}
+	
+	public static void drawNodes(ShapeRenderer shapeRenderer)
+	{
+		Color originalColor = shapeRenderer.getColor();
+		
+		shapeRenderer.begin(ShapeType.Line);
+		for (Node node : nodeList)
+		{
+			Color color = (node.isPassable()) ? Color.CYAN : Color.RED;
+			shapeRenderer.setColor(color);
+			node.draw(shapeRenderer);
+		}
+		shapeRenderer.end();
+		
+		shapeRenderer.setColor(originalColor);
 	}
 	
 	/**
@@ -87,12 +107,14 @@ public class GameWorld
 		{
 			for (int column = 0; column < columns; ++column)
 			{
-				Node node = new Node(column * Node.Size, row * Node.Size);
+				Node node = new Node((int)(column * Node.Size + Screen.Zero.x), (int)(row * Node.Size + Screen.Zero.y));
 				nodeList.add(node);
 				nodes[column][row] = node;
 				addEdges(nodes, row, column, columns);
 			}
 		}
+		
+		setPassability();
 	}
 	
 	/**
@@ -134,6 +156,17 @@ public class GameWorld
 			{
 				Edge edge = new Edge(1.4);
 				edge.addNode(node).addNode(nodes[column + 1][row - 1]);
+			}
+		}
+	}
+	
+	private static void setPassability()
+	{
+		for (Node node : nodeList)
+		{
+			if (isPassable(node.getCenterX(), node.getCenterY()))
+			{
+				node.setPassable(true);
 			}
 		}
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -80,6 +81,11 @@ public class Node
 	public List<Edge> getEdges()
 	{
 		return edges;
+	}
+	
+	public Rectangle getBounds()
+	{
+		return bounds;
 	}
 	
 	/**
@@ -180,6 +186,11 @@ public class Node
 		int x = MathUtils.random((int)bounds.x, (int)(bounds.x + Size));
 		int y = MathUtils.random((int)bounds.y, (int)(bounds.y + Size));
 		return new Vector2(x, y);
+	}
+	
+	public void draw(ShapeRenderer renderer)
+	{
+		renderer.box(bounds.x, bounds.y, 0, bounds.width, bounds.height, 0);
 	}
 	
 	@Override

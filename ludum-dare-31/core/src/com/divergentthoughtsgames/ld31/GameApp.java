@@ -29,6 +29,7 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -38,6 +39,7 @@ public class GameApp extends ApplicationAdapter {
 	private FPSLogger fpsLogger;
 	
 	private SpriteBatch batch;
+	private ShapeRenderer shapeRenderer;
 	
 	private OrthographicCamera camera;
 	private Viewport viewport;
@@ -52,9 +54,9 @@ public class GameApp extends ApplicationAdapter {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		
 		appState = AppState.NewGameMenu;
-		GameWorld.initialize();
 		
 		batch = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
 		Textures.load();
 		
 		camera = new OrthographicCamera();
@@ -63,6 +65,8 @@ public class GameApp extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 		
 		Screen.Zero = new Vector2(-viewport.getWorldWidth() / 2, -viewport.getWorldHeight() / 2);
+		
+		GameWorld.initialize();
 		
 		System.out.println(viewport.getWorldWidth());
 		System.out.println(viewport.getWorldHeight());
@@ -106,6 +110,9 @@ public class GameApp extends ApplicationAdapter {
 			o.draw(batch);
 		}
 		batch.end();
+		
+		shapeRenderer.setProjectionMatrix(camera.combined);
+		GameWorld.drawNodes(shapeRenderer);
 		
 		if (appState == AppState.Active)
 		{
