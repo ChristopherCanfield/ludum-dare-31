@@ -16,16 +16,19 @@
 */
 package com.divergentthoughtsgames.ld31;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
 
 public class InputEventProcessor extends InputAdapter
 {
-	private Camera camera;
+	private final Camera camera;
+	private final GameApp app;
 	
-	public InputEventProcessor(Camera camera)
+	public InputEventProcessor(GameApp app, Camera camera)
 	{
+		this.app = app;
 		this.camera = camera;
 	}
 	
@@ -56,4 +59,20 @@ public class InputEventProcessor extends InputAdapter
 		
 		return false;
 	}
+	
+	@Override
+ 	public boolean keyUp(int keycode)
+ 	{
+		switch (keycode)
+		{
+		case Keys.NUM_1:
+			app.showPath = !app.showPath;
+			break;
+		case Keys.NUM_2:
+			app.showNodes = !app.showNodes;
+			break;
+		}
+		
+		return false;
+ 	}
 }

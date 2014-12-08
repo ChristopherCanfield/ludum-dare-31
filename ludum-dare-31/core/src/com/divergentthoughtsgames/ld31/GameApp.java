@@ -48,6 +48,9 @@ public class GameApp extends ApplicationAdapter {
 	
 	private AppState appState;
 	
+	public boolean showPath;
+	public boolean showNodes;
+	
 	@Override
 	public void create () {
 		fpsLogger = new FPSLogger();
@@ -68,10 +71,7 @@ public class GameApp extends ApplicationAdapter {
 		
 		GameWorld.initialize();
 		
-		System.out.println(viewport.getWorldWidth());
-		System.out.println(viewport.getWorldHeight());
-		
-		Gdx.input.setInputProcessor(new InputEventProcessor(camera));
+		Gdx.input.setInputProcessor(new InputEventProcessor(this, camera));
 		
 		GameWorld.physicsWorld = new World(new Vector2(1920, 1080), true);
 		
@@ -113,11 +113,18 @@ public class GameApp extends ApplicationAdapter {
 		batch.end();
 		
 		shapeRenderer.setProjectionMatrix(camera.combined);
-		GameWorld.drawNodes(shapeRenderer);
 		
-		for (Organism o : GameWorld.organisms)
+		if (showNodes)
 		{
-			o.drawPath(shapeRenderer);
+			GameWorld.drawNodes(shapeRenderer);
+		}
+		
+		if (showPath)
+		{
+			for (Organism o : GameWorld.organisms)
+			{
+				o.drawPath(shapeRenderer);
+			}
 		}
 		
 		if (appState == AppState.Active)

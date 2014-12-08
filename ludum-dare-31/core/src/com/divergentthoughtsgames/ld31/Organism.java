@@ -163,12 +163,9 @@ public class Organism
 		float y = sprite.getY() + sprite.getHeight() / 2.f;
 		
 		float angle = (float)angleInRadians(x, y, target.getX(), target.getY());
-		sprite.setRotation((float)Math.toDegrees(angle));
+		//sprite.setRotation((float)Math.toDegrees(angle));
 		movementVector.x = MathUtils.cos(angle);
 		movementVector.y = MathUtils.sin(angle);
-		System.out.println("Location: " + x + "," + y);
-		System.out.println("Target: " + target.getX() + "," + target.getY());
-		System.out.println("Movement vector: " + movementVector.x + "," + movementVector.y);
 	}
 	
 	private double angleInRadians(double point1x, double point1y, double point2x, double point2y)
