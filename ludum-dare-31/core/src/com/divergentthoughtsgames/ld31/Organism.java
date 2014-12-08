@@ -26,7 +26,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.divergentthoughtsgames.ld31.nav.Node;
 import com.divergentthoughtsgames.ld31.nav.Search;
@@ -40,6 +42,8 @@ public class Organism
 	private Node target;
 	private Queue<Node> path;
 	
+	private Vector2 movementVector;
+	
 	public Organism()
 	{
 		Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -51,8 +55,9 @@ public class Organism
 		frames.add(new TextureRegion(Textures.organism, 32*5, 0, 32, 32));
 		
 		anim = new Animation(.3f, frames);
-		
 		sprite = new Sprite(frames.get(0));
+		
+		movementVector = new Vector2();
 	}
 	
 	public Organism setX(float x)
@@ -110,13 +115,38 @@ public class Organism
 	
 	private Node currentNode()
 	{
-		return GameWorld.nodes[(int)((sprite.getX() - Screen.Zero.x) / Node.Size)][(int)((sprite.getY() - Screen.Zero.y) / Node.Size)];
+		float x = sprite.getX() + sprite.getWidth() / 2.f;
+		float y = sprite.getY() + sprite.getHeight() / 2.f;
+		return GameWorld.nodes[(int)((x - Screen.Zero.x) / Node.Size)][(int)((y - Screen.Zero.y) / Node.Size)];
 	}
 	
 	private void setTarget()
 	{
 		target = GameWorld.nodes[50][30];
 		path = Search.aStar(currentNode(), target);
+		calculateMovementVectors();
+	}
+	
+	private void calculateMovementVectors()
+	{
+		Node target = path.peek();
+		float x = sprite.getX() + sprite.getWidth() / 2.f;
+		float y = sprite.getY() + sprite.getHeight() / 2.f;
+		
+		float angle = (float)angleInRadians(x, y, target.getX(), target.getY());
+		sprite.setRotation((float)Math.toDegrees(angle));
+		movementVector.x = MathUtils.cos(angle);
+		movementVector.y = MathUtils.sin(angle);
+		System.out.println("Location: " + x + "," + y);
+		System.out.println("Target: " + target.getX() + "," + target.getY());
+		System.out.println("Movement vector: " + movementVector.x + "," + movementVector.y);
+	}
+	
+	private double angleInRadians(double point1x, double point1y, double point2x, double point2y)
+	{
+		double deltaX = point2x - point1x;
+		double deltaY = point2y - point1y;
+		return Math.atan2(deltaY, deltaX);
 	}
 	
 	public void onClick(float x, float y)
