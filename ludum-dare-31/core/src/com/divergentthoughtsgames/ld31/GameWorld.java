@@ -40,8 +40,8 @@ public class GameWorld
 	
 	private static BufferedImage collisionMap;
 	
-	private static List<Node> nodeList;
-	private static Node[][] nodes;
+	public static List<Node> nodeList;
+	public static Node[][] nodes;
 	
 	private static int columns = 1920/Node.Size;
 	private static int rows = 1080/Node.Size;

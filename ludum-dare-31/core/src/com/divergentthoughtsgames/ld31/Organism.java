@@ -16,19 +16,29 @@
 */
 package com.divergentthoughtsgames.ld31;
 
+import java.util.Queue;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.divergentthoughtsgames.ld31.nav.Node;
+import com.divergentthoughtsgames.ld31.nav.Search;
 
 public class Organism
 {
 	private Sprite sprite;
 	private Animation anim;
 	private float animTime;
+	
+	private Node target;
+	private Queue<Node> path;
 	
 	public Organism()
 	{
@@ -45,9 +55,10 @@ public class Organism
 		sprite = new Sprite(frames.get(0));
 	}
 	
-	public void setX(float x)
+	public Organism setX(float x)
 	{
 		sprite.setX(x);
+		return this;
 	}
 	
 	public float getX()
@@ -55,9 +66,10 @@ public class Organism
 		return sprite.getX();
 	}
 	
-	public void setY(float y)
+	public Organism setY(float y)
 	{
 		sprite.setY(y);
+		return this;
 	}
 	
 	public float getY()
@@ -79,7 +91,32 @@ public class Organism
 	
 	public void update()
 	{
-		
+		if (target == null)
+		{
+			setTarget();
+		}
+	}
+	
+	public void drawPath(ShapeRenderer shapeRenderer)
+	{
+		shapeRenderer.begin(ShapeType.Filled);
+		for (Node node : path)
+		{
+			shapeRenderer.setColor(Color.YELLOW);
+			node.draw(shapeRenderer);
+		}
+		shapeRenderer.end();
+	}
+	
+	private Node currentNode()
+	{
+		return GameWorld.nodes[(int)((sprite.getX() - Screen.Zero.x) / Node.Size)][(int)((sprite.getY() - Screen.Zero.y) / Node.Size)];
+	}
+	
+	private void setTarget()
+	{
+		target = GameWorld.nodes[50][30];
+		path = Search.aStar(currentNode(), target);
 	}
 	
 	public void onClick(float x, float y)

@@ -84,6 +84,7 @@ public class GameApp extends ApplicationAdapter {
 	    
 	    GameWorld.organisms = new ArrayList<Organism>();
 	    GameWorld.organisms.add(new Organism());
+	    GameWorld.organisms.get(0).setX(Screen.Zero.x + 100).setY(Screen.Zero.y + 300);
 	}
 
 	@Override
@@ -113,6 +114,11 @@ public class GameApp extends ApplicationAdapter {
 		
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		GameWorld.drawNodes(shapeRenderer);
+		
+		for (Organism o : GameWorld.organisms)
+		{
+			o.drawPath(shapeRenderer);
+		}
 		
 		if (appState == AppState.Active)
 		{
