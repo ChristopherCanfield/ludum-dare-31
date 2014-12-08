@@ -1,7 +1,11 @@
 package com.divergentthoughtsgames.ld31;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,21 +21,19 @@ public class GameApp extends ApplicationAdapter {
 	private FPSLogger fpsLogger;
 	
 	private SpriteBatch batch;
-	private Sprite imgSprite;
-	private Texture img;
 	
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	
 	private World world;
+	private RayHandler rayHandler;
 	
 	@Override
 	public void create () {
 		fpsLogger = new FPSLogger();
 		
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-		imgSprite = new Sprite(img);
+		Textures.load();
 		
 		camera = new OrthographicCamera();
 		viewport = new StretchViewport(1920, 1080, camera);
@@ -39,12 +41,18 @@ public class GameApp extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 		
 		Screen.Zero = new Vector2(-viewport.getWorldWidth() / 2, -viewport.getWorldHeight() / 2);
-		imgSprite.setPosition(Screen.Zero.x, Screen.Zero.y);
 		
 		System.out.println(viewport.getWorldWidth());
 		System.out.println(viewport.getWorldHeight());
 		
-//		world = new World();
+		world = new World(new Vector2(1920, 1080), true);
+		
+		rayHandler = new RayHandler(world);
+		rayHandler.setCombinedMatrix(camera.combined);
+		
+	    rayHandler.setAmbientLight(1f, 1f, 1f, 0.05f);
+	    
+	    new PointLight(rayHandler, 100, new Color(Color.rgba8888(1, 1, 1, 0.75f)), 1000f, 200, 200);
 	}
 
 	@Override
@@ -54,10 +62,17 @@ public class GameApp extends ApplicationAdapter {
 		
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
+		rayHandler.setCombinedMatrix(camera.combined);
 		
 		batch.begin();
-		imgSprite.draw(batch);
+		batch.draw(Textures.map, Screen.Zero.x, Screen.Zero.y);
 		batch.end();
+		
+		rayHandler.updateAndRender();
+		
+		world.step(1/60f, 6, 2);
+		
+		fpsLogger.log();
 	}
 	
 	@Override
