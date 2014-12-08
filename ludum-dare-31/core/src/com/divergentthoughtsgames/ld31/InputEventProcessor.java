@@ -16,13 +16,26 @@ public class InputEventProcessor extends InputAdapter
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button)
 	{
-		Vector3 clickedWU = camera.unproject(new Vector3(screenX, screenY, 0));
+		Vector3 clickWU = camera.unproject(new Vector3(screenX, screenY, 0));
 		
 		for (Organism o : GameWorld.organisms)
 		{
-			o.onClick(clickedWU.x, clickedWU.y);
+			o.onClick(clickWU.x, clickWU.y);
 		}
 			
+		return false;
+	}
+	
+	@Override
+	public boolean mouseMoved(int screenX, int screenY)
+	{
+		Vector3 clickWU = camera.unproject(new Vector3(screenX, screenY, 0));
+		
+		for (Organism o : GameWorld.organisms)
+		{
+			o.onHover(clickWU.x, clickWU.y);
+		}
+		
 		return false;
 	}
 }

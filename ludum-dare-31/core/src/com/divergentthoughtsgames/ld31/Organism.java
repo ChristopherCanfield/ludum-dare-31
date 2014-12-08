@@ -76,6 +76,9 @@ public class Organism
 	
 	public void onHover(float x, float y)
 	{
-		
+		if (sprite.getBoundingRectangle().contains(x, y))
+		{
+			Gdx.app.debug("Organism onHover", "Organism: " + sprite.getX() + "," + sprite.getY());
+		}
 	}
 }
