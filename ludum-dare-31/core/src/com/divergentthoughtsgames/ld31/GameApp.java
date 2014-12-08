@@ -1,6 +1,10 @@
 package com.divergentthoughtsgames.ld31;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
@@ -30,10 +34,15 @@ public class GameApp extends ApplicationAdapter {
 	
 	private RayHandler rayHandler;
 	
+	private AppState appState;
+	
 	@Override
 	public void create () {
 		fpsLogger = new FPSLogger();
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		
+		appState = AppState.NewGameMenu;
+		GameWorld.initialize();
 		
 		batch = new SpriteBatch();
 		Textures.load();
@@ -88,7 +97,10 @@ public class GameApp extends ApplicationAdapter {
 		}
 		batch.end();
 		
-		rayHandler.updateAndRender();
+		if (appState == AppState.Active)
+		{
+			rayHandler.updateAndRender();
+		}
 		
 		GameWorld.physicsWorld.step(1/60f, 6, 2);
 		

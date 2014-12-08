@@ -22,6 +22,8 @@ public class InputEventProcessor extends InputAdapter
 		{
 			o.onClick(clickWU.x, clickWU.y);
 		}
+		
+		GameWorld.isPassable(clickWU.x, clickWU.y);
 			
 		return false;
 	}
