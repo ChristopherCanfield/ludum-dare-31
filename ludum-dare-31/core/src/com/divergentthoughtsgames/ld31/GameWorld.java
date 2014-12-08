@@ -40,4 +40,9 @@ public class GameWorld
 		
 		return collisionMap.getRGB(adjustedX, adjustedY) != -16777216;
 	}
+	
+	private static void createNavMap()
+	{
+		
+	}
 }
