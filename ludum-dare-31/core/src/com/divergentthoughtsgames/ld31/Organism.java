@@ -23,11 +23,8 @@ public class Organism
 		frames.add(new TextureRegion(Textures.organism, 32*3, 0, 32, 32));
 		frames.add(new TextureRegion(Textures.organism, 32*4, 0, 32, 32));
 		frames.add(new TextureRegion(Textures.organism, 32*5, 0, 32, 32));
-		frames.add(new TextureRegion(Textures.organism, 32*6, 0, 32, 32));
-		frames.add(new TextureRegion(Textures.organism, 32*7, 0, 32, 32));
-		frames.add(new TextureRegion(Textures.organism, 32*8, 0, 32, 32));
 		
-		anim = new Animation(33, frames);
+		anim = new Animation(.3f, frames);
 		
 		sprite = new Sprite(frames.get(0));
 	}
@@ -65,6 +62,19 @@ public class Organism
 	}
 	
 	public void update()
+	{
+		
+	}
+	
+	public void onClick(float x, float y)
+	{
+		if (sprite.getBoundingRectangle().contains(x, y))
+		{
+			Gdx.app.debug("Organism onClick", "Organism: " + sprite.getX() + "," + sprite.getY());
+		}
+	}
+	
+	public void onHover(float x, float y)
 	{
 		
 	}

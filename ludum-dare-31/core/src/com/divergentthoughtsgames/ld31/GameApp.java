@@ -1,8 +1,11 @@
 package com.divergentthoughtsgames.ld31;
 
+import java.util.ArrayList;
+
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -25,12 +28,12 @@ public class GameApp extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	
-	private World world;
 	private RayHandler rayHandler;
 	
 	@Override
 	public void create () {
 		fpsLogger = new FPSLogger();
+		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		
 		batch = new SpriteBatch();
 		Textures.load();
@@ -45,20 +48,30 @@ public class GameApp extends ApplicationAdapter {
 		System.out.println(viewport.getWorldWidth());
 		System.out.println(viewport.getWorldHeight());
 		
-		world = new World(new Vector2(1920, 1080), true);
+		Gdx.input.setInputProcessor(new InputEventProcessor(camera));
 		
-		rayHandler = new RayHandler(world);
+		GameWorld.physicsWorld = new World(new Vector2(1920, 1080), true);
+		
+		rayHandler = new RayHandler(GameWorld.physicsWorld);
 		rayHandler.setCombinedMatrix(camera.combined);
 		
 	    rayHandler.setAmbientLight(1f, 1f, 1f, 0.05f);
 	    
 	    new PointLight(rayHandler, 100, new Color(Color.rgba8888(1, 1, 1, 0.75f)), 1000f, 200, 200);
+	    
+	    GameWorld.organisms = new ArrayList<Organism>();
+	    GameWorld.organisms.add(new Organism());
 	}
 
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		for (Organism o : GameWorld.organisms)
+		{
+			o.update();
+		}
 		
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
@@ -68,9 +81,16 @@ public class GameApp extends ApplicationAdapter {
 		batch.draw(Textures.map, Screen.Zero.x, Screen.Zero.y);
 		batch.end();
 		
+		batch.begin();
+		for (Organism o : GameWorld.organisms)
+		{
+			o.draw(batch);
+		}
+		batch.end();
+		
 		rayHandler.updateAndRender();
 		
-		world.step(1/60f, 6, 2);
+		GameWorld.physicsWorld.step(1/60f, 6, 2);
 		
 		fpsLogger.log();
 	}
