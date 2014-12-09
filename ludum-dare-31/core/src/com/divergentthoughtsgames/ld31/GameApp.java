@@ -185,8 +185,11 @@ public class GameApp extends ApplicationAdapter {
 			speciesCreationDialog.draw(batch);
 			speciesCreationDialog.drawHitboxes(shapeRenderer);
 		}
+		else
+		{
+			batch.end();
+		}
 		
-		batch.end();
 	}
 	
 	@Override

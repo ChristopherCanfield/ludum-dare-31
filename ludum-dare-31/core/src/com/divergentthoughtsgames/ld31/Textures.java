@@ -26,13 +26,10 @@ public class Textures
 	
 	public static Texture createSpeciesDialog;
 	
-	public static Texture createSpeciesDialogText;
-	
 	public static void load()
 	{
 		map = new Texture("map.png");
 		organism = new Texture("organism.png");
 		createSpeciesDialog = new Texture("create-species-dialog.png");
-		createSpeciesDialogText = new Texture("dialog-text.png");
 	}
 }

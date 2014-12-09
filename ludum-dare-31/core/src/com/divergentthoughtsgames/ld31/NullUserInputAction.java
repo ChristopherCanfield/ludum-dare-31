@@ -9,6 +9,10 @@ public class NullUserInputAction implements UserInputAction
 		return instance;
 	}
 	
+	private NullUserInputAction()
+	{
+	}
+	
 	@Override
 	public void onEvent(float x, float y)
 	{	

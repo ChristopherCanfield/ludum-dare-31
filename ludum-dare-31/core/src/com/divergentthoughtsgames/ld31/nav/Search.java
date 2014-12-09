@@ -24,8 +24,6 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
-import com.divergentthoughtsgames.ld31.Screen;
-
 /**
  * Contains a method that implements the A* search algorithm.
  * @author Christopher D. Canfield

@@ -71,7 +71,7 @@ public class SpeciesCreationDialog extends Sprite
 	public void draw(Batch batch)
 	{
 		super.draw(batch);
-		
+//		
 		font.setColor(Color.GREEN);
 		
 		// Animal type.
@@ -86,11 +86,16 @@ public class SpeciesCreationDialog extends Sprite
 		font.draw(batch, "Animal", getX() + 250, getY() + 205);
 		// Color.
 		font.draw(batch, "Animal", getX() + 250, getY() + 142);
+		
+		batch.end();
 	}
 	
 	public void drawHitboxes(ShapeRenderer renderer)
 	{
 		Color originalColor = renderer.getColor();
+		
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		
 		renderer.begin(ShapeType.Filled);
 		renderer.setColor(new Color(0.38f, 0.38f, 0.38f, 0.65f));
@@ -99,6 +104,8 @@ public class SpeciesCreationDialog extends Sprite
 			renderer.rect(hb.rect.x, hb.rect.y, hb.rect.width, hb.rect.height);
 		}
 		renderer.end();
+		
+		Gdx.gl.glDisable(GL20.GL_BLEND);
 		
 		renderer.setColor(originalColor);
 	}
