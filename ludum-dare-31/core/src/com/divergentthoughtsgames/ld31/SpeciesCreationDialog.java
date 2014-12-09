@@ -75,9 +75,13 @@ public class SpeciesCreationDialog extends Sprite
 			@Override public void onEvent(float x, float y) { app.showSpeciesCreationDialog = false; }
 		});
 		
-		attributes = new OrganismAttribute[5];
+		attributes = new OrganismAttribute[6];
 		attributes[TypeAttribute] = new OrganismAttribute(new String[]{"Animal", "Plant"});
 		attributes[DietAttribute] = new OrganismAttribute(new String[]{"Animals", "Plants", "Both", "Sun"});
+		attributes[LifespanAttribute] = new OrganismAttribute(new String[]{"Long", "Average", "Short"});
+		attributes[SpeedAttribute] = new OrganismAttribute(new String[]{"Fast", "Medium", "Slow"});
+		attributes[AggressionAttribute] = new OrganismAttribute(new String[]{"High", "Medium", "Low"});
+		attributes[ColorAttribute] = new OrganismAttribute(new String[]{"White", "Blue", "Cyan", "Green", "Red", "Orange", "Yellow"});
 	}
 	
 	@Override
