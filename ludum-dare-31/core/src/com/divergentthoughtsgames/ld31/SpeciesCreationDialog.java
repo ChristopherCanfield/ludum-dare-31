@@ -35,6 +35,15 @@ public class SpeciesCreationDialog extends Sprite
 	private static final int OkButton = 12;
 	private static final int CancelButton = 13;
 	
+	private OrganismAttribute[] attributes;
+	
+	private static final int TypeAttribute = 0;
+	private static final int DietAttribute = 1;
+	private static final int LifespanAttribute = 2;
+	private static final int SpeedAttribute = 3;
+	private static final int AggressionAttribute = 4;
+	private static final int ColorAttribute = 5;
+	
 	private final BitmapFont font;
 	private final GameApp app;
 	
@@ -65,19 +74,23 @@ public class SpeciesCreationDialog extends Sprite
 		hitboxes[CancelButton].setOnClickAction(new UserInputAction() {
 			@Override public void onEvent(float x, float y) { app.showSpeciesCreationDialog = false; }
 		});
+		
+		attributes = new OrganismAttribute[5];
+		attributes[TypeAttribute] = new OrganismAttribute(new String[]{"Animal", "Plant"});
+		attributes[DietAttribute] = new OrganismAttribute(new String[]{"Animals", "Plants", "Both", "Sun"});
 	}
 	
 	@Override
 	public void draw(Batch batch)
 	{
 		super.draw(batch);
-//		
+		
 		font.setColor(Color.GREEN);
 		
 		// Animal type.
-		font.draw(batch, "Animal", getX() + 250, getY() + 450);
+		font.draw(batch, attributes[TypeAttribute].getLabel(), getX() + 250, getY() + 450);
 		// Diet.
-		font.draw(batch, "Animals", getX() + 250, getY() + 390);
+		font.draw(batch, attributes[DietAttribute].getLabel(), getX() + 250, getY() + 390);
 		// Lifespan.
 		font.draw(batch, "High", getX() + 250, getY() + 328);
 		// Speed.
@@ -178,6 +191,32 @@ public class SpeciesCreationDialog extends Sprite
 		public void onHover(float x, float y)
 		{
 			onHoverAction.onEvent(x, y);
+		}
+	}
+	
+	
+	private static class OrganismAttribute
+	{
+		private int index;
+		private String[] labels;
+		
+		public OrganismAttribute(String[] labels)
+		{
+			this.labels = labels;
+		}
+		
+		public String getLabel()
+		{
+			return labels[index];
+		}
+		
+		public void nextLabel()
+		{
+			index++;
+			if (index >= labels.length)
+			{
+				index = 0;
+			}
 		}
 	}
 }
