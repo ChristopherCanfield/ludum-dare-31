@@ -53,8 +53,11 @@ public class GameApp extends ApplicationAdapter {
 	public boolean showPath;
 	public boolean showNodes;
 	public boolean logFramesPerSecond;
+	public boolean showSpeciesCreationDialog;
 	
 	private BitmapFont font;
+	
+	private SpeciesCreationDialog speciesCreationDialog;
 	
 	@Override
 	public void create () {
@@ -94,6 +97,8 @@ public class GameApp extends ApplicationAdapter {
 	    FileHandle fntFile = Gdx.files.internal("arial_36_bold.fnt");
 	    FileHandle pngFile = Gdx.files.internal("arial_36_bold.png");
 	    font = new BitmapFont(fntFile, pngFile, false);
+	    
+	    speciesCreationDialog = new SpeciesCreationDialog(this, font);
 	}
 
 	@Override
@@ -101,9 +106,12 @@ public class GameApp extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		for (Organism o : GameWorld.organisms)
+		if (!showSpeciesCreationDialog)
 		{
-			o.update();
+			for (Organism o : GameWorld.organisms)
+			{
+				o.update();
+			}
 		}
 		
 		camera.update();
@@ -111,7 +119,6 @@ public class GameApp extends ApplicationAdapter {
 		rayHandler.setCombinedMatrix(camera.combined);
 		
 		drawMap();
-		
 		drawOrganisms();
 		
 		shapeRenderer.setProjectionMatrix(camera.combined);
@@ -128,10 +135,7 @@ public class GameApp extends ApplicationAdapter {
 		
 		GameWorld.physicsWorld.step(1/60f, 6, 2);
 		
-		if (logFramesPerSecond)
-		{
-			fpsLogger.log();
-		}
+		if (logFramesPerSecond) fpsLogger.log();
 	}
 	
 	private void drawMap()
@@ -173,7 +177,14 @@ public class GameApp extends ApplicationAdapter {
 	private void drawUi()
 	{
 		batch.begin();
+		
+		font.setColor(Color.WHITE);
 		font.draw(batch, "Organisms: " + GameWorld.organisms.size(), Screen.Zero.x + 20, Screen.Zero.y + 1060);
+		if (showSpeciesCreationDialog)
+		{
+			speciesCreationDialog.draw(batch);
+		}
+		
 		batch.end();
 	}
 	

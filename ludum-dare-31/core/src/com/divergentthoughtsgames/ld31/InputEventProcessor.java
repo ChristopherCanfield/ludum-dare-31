@@ -74,6 +74,8 @@ public class InputEventProcessor extends InputAdapter
 		case Keys.F3:
 			app.logFramesPerSecond = !app.logFramesPerSecond;
 			break;
+		case Keys.NUM_1:
+			app.showSpeciesCreationDialog = !app.showSpeciesCreationDialog;
 		}
 		
 		return false;
