@@ -43,6 +43,7 @@ public class InputEventProcessor extends InputAdapter
 		}
 		
 		GameWorld.isPassable(clickWU.x, clickWU.y);
+		app.speciesCreationDialog.onClick(clickWU.x, clickWU.y);
 			
 		return false;
 	}
@@ -56,6 +57,8 @@ public class InputEventProcessor extends InputAdapter
 		{
 			o.onHover(clickWU.x, clickWU.y);
 		}
+		
+		app.speciesCreationDialog.onHover(clickWU.x, clickWU.y);
 		
 		return false;
 	}

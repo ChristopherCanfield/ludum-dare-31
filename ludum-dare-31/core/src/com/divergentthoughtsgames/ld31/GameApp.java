@@ -57,7 +57,7 @@ public class GameApp extends ApplicationAdapter {
 	
 	private BitmapFont font;
 	
-	private SpeciesCreationDialog speciesCreationDialog;
+	SpeciesCreationDialog speciesCreationDialog;
 	
 	@Override
 	public void create () {
@@ -183,6 +183,7 @@ public class GameApp extends ApplicationAdapter {
 		if (showSpeciesCreationDialog)
 		{
 			speciesCreationDialog.draw(batch);
+			speciesCreationDialog.drawHitboxes(shapeRenderer);
 		}
 		
 		batch.end();

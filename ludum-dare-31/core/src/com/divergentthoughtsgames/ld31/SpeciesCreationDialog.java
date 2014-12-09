@@ -2,12 +2,11 @@ package com.divergentthoughtsgames.ld31;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 public class SpeciesCreationDialog extends Sprite
@@ -23,6 +22,18 @@ public class SpeciesCreationDialog extends Sprite
 	private static final int LifespanUp = 4;
 	private static final int LifespanDown = 5;
 	
+	private static final int SpeedUp = 6;
+	private static final int SpeedDown = 7;
+	
+	private static final int AggressionUp = 8;
+	private static final int AggressionDown = 9;
+	
+	private static final int ColorUp = 10;
+	private static final int ColorDown = 11;
+	
+	private static final int OkButton = 12;
+	private static final int CancelButton = 13;
+	
 	private final BitmapFont font;
 	private final GameApp app;
 	
@@ -34,13 +45,23 @@ public class SpeciesCreationDialog extends Sprite
 		this.font = font;
 		this.app = app;
 		
-		hitboxes = new Hitbox[8];
-		hitboxes[TypeUp] = new Hitbox("TypeUp", 1, 7, 113, 28);
-		hitboxes[TypeDown] = new Hitbox("TypeDown", 1, 39, 113, 28);
-		hitboxes[DietUp] = new Hitbox("DietUp", 1, 71, 133, 36);
-		hitboxes[DietDown] = new Hitbox("DietDown", 1, 104, 133, 36);
-		hitboxes[LifespanUp] = new Hitbox("LifespanUp", 1, 139, 133, 36);
-		hitboxes[LifespanDown] = new Hitbox("LifespanDown", 1, 1, 1, 1);
+		hitboxes = new Hitbox[6];
+		hitboxes[TypeUp] = new Hitbox("TypeUp", getX() + 415, getY() + 432, 60, 24);
+		hitboxes[TypeDown] = new Hitbox("TypeDown", getX() + 415, getY() + 405, 60, 24);
+		hitboxes[DietUp] = new Hitbox("DietUp", getX() + 415, getY() + 372, 60, 24);
+		hitboxes[DietDown] = new Hitbox("DietDown", getX() + 415, getY() + 345, 60, 24);
+		hitboxes[LifespanUp] = new Hitbox("LifespanUp", getX() + 415, getY() + 310, 60, 24);
+		hitboxes[LifespanDown] = new Hitbox("LifespanDown", getX() + 415, getY() + 285, 60, 24);
+		
+//		hitboxes[LifespanUp] = new Hitbox("LifespanUp", getX() + 415, getY() + 310, 60, 24);
+//		hitboxes[LifespanDown] = new Hitbox("LifespanDown", getX() + 415, getY() + 285, 60, 24);
+//		hitboxes[LifespanUp] = new Hitbox("LifespanUp", getX() + 415, getY() + 310, 60, 24);
+//		hitboxes[LifespanDown] = new Hitbox("LifespanDown", getX() + 415, getY() + 285, 60, 24);
+//		hitboxes[LifespanUp] = new Hitbox("LifespanUp", getX() + 415, getY() + 310, 60, 24);
+//		hitboxes[LifespanDown] = new Hitbox("LifespanDown", getX() + 415, getY() + 285, 60, 24);
+		
+//		hitboxes[LifespanUp] = new Hitbox("LifespanUp", getX() + 415, getY() + 310, 60, 24);
+//		hitboxes[LifespanDown] = new Hitbox("LifespanDown", getX() + 415, getY() + 285, 60, 24);
 	}
 	
 	@Override
@@ -64,11 +85,33 @@ public class SpeciesCreationDialog extends Sprite
 		font.draw(batch, "Animal", getX() + 250, getY() + 142);
 	}
 	
+	public void drawHitboxes(ShapeRenderer renderer)
+	{
+		Color originalColor = renderer.getColor();
+		
+		renderer.begin(ShapeType.Filled);
+		renderer.setColor(new Color(Color.BLUE));
+		for (Hitbox hb : hitboxes)
+		{
+			renderer.setColor(renderer.getColor().mul(0.5f, 0.25f, 0.65f, 1));
+			renderer.rect(hb.rect.x, hb.rect.y, hb.rect.width, hb.rect.height);
+		}
+		renderer.end();
+		
+		renderer.setColor(originalColor);
+	}
+	
 	public void onClick(float x, float y)
 	{
 		if (app.showSpeciesCreationDialog && getBoundingRectangle().contains(x, y))
 		{
-			Gdx.app.debug("Dialog onClick", "Dialog: " + getX() + "," + getY());
+			for (Hitbox hb : hitboxes)
+			{
+				if (hb.contains(x, y))
+				{
+					Gdx.app.debug("SpeciesCreationDialog", "Click: " + hb.name);
+				}
+			}
 		}
 	}
 	
@@ -76,13 +119,11 @@ public class SpeciesCreationDialog extends Sprite
 	{
 		if (app.showSpeciesCreationDialog && getBoundingRectangle().contains(x, y))
 		{
-			Gdx.app.debug("Dialog onHover", "Dialog: " + getX() + "," + getY());
-			
 			for (Hitbox hb : hitboxes)
 			{
 				if (hb.contains(x, y))
 				{
-					System.out.println(hb.name);
+					Gdx.app.debug("SpeciesCreationDialog", "Hover: " + hb.name);
 				}
 			}
 		}
@@ -91,18 +132,41 @@ public class SpeciesCreationDialog extends Sprite
 	
 	private static class Hitbox
 	{
-		private Rectangle rect;
-		String name;
+		public final Rectangle rect;
+		public final String name;
+		
+		private UserInputAction onClickAction;
+		private UserInputAction onHoverAction;
 		
 		public Hitbox(String name, float x, float y, float width, float height)
 		{
 			this.name = name;
-			rect = new Rectangle(x, y, width, height);
+			this.rect = new Rectangle(x, y, width, height);
 		}
 		
 		public boolean contains(float x, float y)
 		{
-			return rect.contains(x, y);
+			return this.rect.contains(x, y);
+		}
+		
+		public void setOnClickAction(UserInputAction action)
+		{
+			onClickAction = action;
+		}
+		
+		public void setOnHoverAction(UserInputAction action)
+		{
+			onHoverAction = action;
+		}
+		
+		public void onClick(float x, float y)
+		{
+			onClickAction.onEvent(x, y);
+		}
+		
+		public void onHover(float x, float y)
+		{
+			onHoverAction.onEvent(x, y);
 		}
 	}
 }
