@@ -24,6 +24,7 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
@@ -90,7 +91,9 @@ public class GameApp extends ApplicationAdapter {
 	    GameWorld.organisms.add(new Organism());
 	    GameWorld.organisms.get(0).setX(Screen.Zero.x + 100).setY(Screen.Zero.y + 300);
 	    
-	    font = new BitmapFont(Gdx.files.internal("arial_28_outlined.fnt"), Gdx.files.internal("arial_28_outlined.png"), false);
+	    FileHandle fntFile = Gdx.files.internal("arial_36_bold.fnt");
+	    FileHandle pngFile = Gdx.files.internal("arial_36_bold.png");
+	    font = new BitmapFont(fntFile, pngFile, false);
 	}
 
 	@Override
@@ -170,7 +173,7 @@ public class GameApp extends ApplicationAdapter {
 	private void drawUi()
 	{
 		batch.begin();
-		font.draw(batch, "Test help", 250, 100);
+		font.draw(batch, "Organisms: " + GameWorld.organisms.size(), Screen.Zero.x + 20, Screen.Zero.y + 1060);
 		batch.end();
 	}
 	

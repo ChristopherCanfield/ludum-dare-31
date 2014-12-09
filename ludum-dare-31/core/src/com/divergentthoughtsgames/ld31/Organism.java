@@ -44,6 +44,8 @@ public class Organism
 	
 	private Vector2 movementVector;
 	
+	private float speed;
+	
 	public Organism()
 	{
 		Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -58,6 +60,7 @@ public class Organism
 		sprite = new Sprite(frames.get(0));
 		
 		movementVector = new Vector2();
+		speed = 0.75f;
 	}
 	
 	public Organism setX(float x)
@@ -102,10 +105,11 @@ public class Organism
 			return;
 		}
 
-		sprite.setPosition(sprite.getX() + movementVector.x, sprite.getY() + movementVector.y);
+		float x = sprite.getX();
+		float y = sprite.getY();
+		sprite.setPosition(x + movementVector.x * speed, y + movementVector.y * speed);
 		if (sprite.getBoundingRectangle().overlaps(target.getBounds()))
 		{
-			System.out.println("Overlaps");
 			target = path.poll();
 			calculateMovementVectors();
 		}
@@ -157,7 +161,6 @@ public class Organism
 	{
 		if (target == null) return;
 		
-		Node target = path.peek();
 		float x = sprite.getX() + sprite.getWidth() / 2.f;
 		float y = sprite.getY() + sprite.getHeight() / 2.f;
 		
