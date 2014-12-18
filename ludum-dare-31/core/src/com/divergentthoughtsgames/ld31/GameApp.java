@@ -36,6 +36,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.divergentthoughtsgames.ld31.ui.TestUi;
+import com.divergentthoughtsgames.ld31.ui.UiScreen;
 
 public class GameApp extends ApplicationAdapter {
 	private FPSLogger fpsLogger;
@@ -58,6 +60,8 @@ public class GameApp extends ApplicationAdapter {
 	private BitmapFont font;
 	
 	SpeciesCreationDialog speciesCreationDialog;
+	
+	UiScreen testUi;
 	
 	@Override
 	public void create () {
@@ -99,6 +103,8 @@ public class GameApp extends ApplicationAdapter {
 	    font = new BitmapFont(fntFile, pngFile, false);
 	    
 	    speciesCreationDialog = new SpeciesCreationDialog(this, font);
+	    
+	    testUi = new TestUi();
 	}
 
 	@Override
@@ -106,34 +112,36 @@ public class GameApp extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		if (!showSpeciesCreationDialog)
-		{
-			for (Organism o : GameWorld.organisms)
-			{
-				o.update();
-			}
-		}
+		testUi.update(true);
 		
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
-		rayHandler.setCombinedMatrix(camera.combined);
-		
-		drawMap();
-		drawOrganisms();
-		
-		shapeRenderer.setProjectionMatrix(camera.combined);
-		
-		drawNodes();
-		drawPaths();
-		
-		if (appState == AppState.Active)
-		{
-			rayHandler.updateAndRender();
-		}
-		
-		drawUi();
-		
-		GameWorld.physicsWorld.step(1/60f, 6, 2);
+//		if (!showSpeciesCreationDialog)
+//		{
+//			for (Organism o : GameWorld.organisms)
+//			{
+//				o.update();
+//			}
+//		}
+//		
+//		camera.update();
+//		batch.setProjectionMatrix(camera.combined);
+//		rayHandler.setCombinedMatrix(camera.combined);
+//		
+//		drawMap();
+//		drawOrganisms();
+//		
+//		shapeRenderer.setProjectionMatrix(camera.combined);
+//		
+//		drawNodes();
+//		drawPaths();
+//		
+//		if (appState == AppState.Active)
+//		{
+//			rayHandler.updateAndRender();
+//		}
+//		
+//		drawUi();
+//		
+//		GameWorld.physicsWorld.step(1/60f, 6, 2);
 		
 		if (logFramesPerSecond) fpsLogger.log();
 	}
