@@ -36,6 +36,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.divergentthoughtsgames.ld31.ui.StartMenuUi;
 import com.divergentthoughtsgames.ld31.ui.TestUi;
 import com.divergentthoughtsgames.ld31.ui.UiScreen;
 
@@ -61,7 +62,7 @@ public class GameApp extends ApplicationAdapter {
 	
 	SpeciesCreationDialog speciesCreationDialog;
 	
-	UiScreen testUi;
+	UiScreen ui;
 	
 	@Override
 	public void create () {
@@ -104,46 +105,52 @@ public class GameApp extends ApplicationAdapter {
 	    
 	    speciesCreationDialog = new SpeciesCreationDialog(this, font);
 	    
-	    testUi = new TestUi();
+	    ui = new StartMenuUi();
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		if (appState == AppState.NewGameMenu)
+		{
+			ui.clear();
+			ui.update(true);
+		}
+		else
+		{
+			Gdx.gl.glClearColor(0, 0, 0, 1);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		testUi.update(true);
+			if (!showSpeciesCreationDialog)
+			{
+				for (Organism o : GameWorld.organisms)
+				{
+					o.update();
+				}
+			}
+			
+			camera.update();
+			batch.setProjectionMatrix(camera.combined);
+			rayHandler.setCombinedMatrix(camera.combined);
+			
+			drawMap();
+			drawOrganisms();
+			
+			shapeRenderer.setProjectionMatrix(camera.combined);
+			
+			drawNodes();
+			drawPaths();
+			
+			if (appState == AppState.Active)
+			{
+				rayHandler.updateAndRender();
+			}
+			
+			drawUi();
+			
+			GameWorld.physicsWorld.step(1/60f, 6, 2);
 		
-//		if (!showSpeciesCreationDialog)
-//		{
-//			for (Organism o : GameWorld.organisms)
-//			{
-//				o.update();
-//			}
-//		}
-//		
-//		camera.update();
-//		batch.setProjectionMatrix(camera.combined);
-//		rayHandler.setCombinedMatrix(camera.combined);
-//		
-//		drawMap();
-//		drawOrganisms();
-//		
-//		shapeRenderer.setProjectionMatrix(camera.combined);
-//		
-//		drawNodes();
-//		drawPaths();
-//		
-//		if (appState == AppState.Active)
-//		{
-//			rayHandler.updateAndRender();
-//		}
-//		
-//		drawUi();
-//		
-//		GameWorld.physicsWorld.step(1/60f, 6, 2);
-		
-		if (logFramesPerSecond) fpsLogger.log();
+			if (logFramesPerSecond) fpsLogger.log();
+		}
 	}
 	
 	private void drawMap()

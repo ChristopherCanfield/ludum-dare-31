@@ -1,6 +1,7 @@
 package com.divergentthoughtsgames.ld31.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -11,16 +12,10 @@ public class TestUi extends UiScreen
 {
 	private Label messageHistory;
 
-	/**
-	 * Constructs the network game lobby.
-	 * 
-	 * @param app
-	 *            reference to the Game Application.
-	 * @param world
-	 *            reference to the game world.
-	 */
 	public TestUi()
 	{
+		super(new Color(0, 0, 0, 0));
+		
 		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("ui/uiskin.atlas"));
 		Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"), atlas);
 

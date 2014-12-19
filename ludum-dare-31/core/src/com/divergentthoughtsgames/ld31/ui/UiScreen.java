@@ -1,6 +1,8 @@
 package com.divergentthoughtsgames.ld31.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -17,11 +19,15 @@ public abstract class UiScreen
 	/** The base table for the screen. **/
 	protected final Table table;
 	
+	protected final Color color;
+	
 	/**
 	 * Default constructor.
 	 */
-	protected UiScreen()
+	protected UiScreen(Color color)
 	{
+		this.color = color;
+		
 		stage = new Stage();
 		table = new Table();
 
@@ -30,6 +36,12 @@ public abstract class UiScreen
 	    stage.addActor(table);
 		
 		Gdx.input.setInputProcessor(stage);
+	}
+	
+	public void clear()
+	{
+		Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 	
 	/**
