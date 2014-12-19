@@ -37,7 +37,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.divergentthoughtsgames.ld31.ui.StartMenuUi;
+import com.divergentthoughtsgames.ld31.ui.StartMenuScreen;
 import com.divergentthoughtsgames.ld31.ui.TestUi;
 import com.divergentthoughtsgames.ld31.ui.UiScreen;
 
@@ -106,7 +106,7 @@ public class GameApp extends ApplicationAdapter {
 	    
 	    speciesCreationDialog = new SpeciesCreationDialog(this, font);
 	    
-	    ui = new StartMenuUi();
+	    ui = new StartMenuScreen();
 	}
 
 	@Override

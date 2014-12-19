@@ -14,9 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
-public class StartMenuUi extends UiScreen
+public class MultiplayerMenuScreen extends UiScreen
 {
-	public StartMenuUi()
+	public MultiplayerMenuScreen()
 	{
 		super(new Color(0.5f, 0.5f, 0.5f, 1.f));
 		
@@ -32,7 +32,6 @@ public class StartMenuUi extends UiScreen
 		
 		table.row();
 		
-//		VerticalGroup topScoreGroup = new VerticalGroup();
 		Table topScoreGroup = new Table(skin);
 		table.add(topScoreGroup).align(Align.left + Align.top).width(500);
 		addTopScores(skin, topScoreGroup);
@@ -74,8 +73,6 @@ public class StartMenuUi extends UiScreen
 	
 	private static void addButtons(Skin skin, Table group)
 	{
-//		table.row().align(Align.center);
-		
 		TextButton singlePlayerBtn = new SizedTextButton("Single Player", skin, 400, 50);
 		group.add(singlePlayerBtn).padBottom(20);
 		
@@ -106,54 +103,5 @@ public class StartMenuUi extends UiScreen
 	{
 	}
 	
-	private static class SizedTextButton extends TextButton
-	{
-		private final float width;
-		private final float height;
-
-		public SizedTextButton(String text, Skin skin, float width, float height)
-		{
-			super(text, skin);
-			this.width = width;
-			this.height = height;
-		}
-		
-		@Override
-		public float getPrefWidth()
-		{
-			return width;
-		}
-		
-		@Override
-		public float getMinWidth()
-		{
-			return width;
-		}
-		
-		@Override
-		public float getMaxWidth()
-		{
-			// No max width.
-			return 0;
-		}
-		
-		@Override
-		public float getPrefHeight()
-		{
-			return height;
-		}
-		
-		@Override
-		public float getMinHeight()
-		{
-			return height;
-		}
-		
-		@Override
-		public float getMaxHeight()
-		{
-			// No max height.
-			return 0;
-		}
-	}
+	
 }
