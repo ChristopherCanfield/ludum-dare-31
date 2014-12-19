@@ -24,6 +24,7 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
@@ -113,7 +114,7 @@ public class GameApp extends ApplicationAdapter {
 		if (appState == AppState.NewGameMenu)
 		{
 			ui.clear();
-			ui.update(true);
+			ui.update(Gdx.input.isKeyPressed(Keys.NUM_1));
 		}
 		else
 		{

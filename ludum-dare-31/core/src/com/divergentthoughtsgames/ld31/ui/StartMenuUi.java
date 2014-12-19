@@ -25,53 +25,41 @@ public class StartMenuUi extends UiScreen
 		
 		addTitle(skin);
 		
+		table.setFillParent(true);
+		
+		table.padLeft(20);
+		table.padRight(20);
+		
 		table.row();
 		
 //		VerticalGroup topScoreGroup = new VerticalGroup();
 		Table topScoreGroup = new Table(skin);
-		table.add(topScoreGroup).align(Align.left);
+		table.add(topScoreGroup).align(Align.left + Align.top).width(500);
 		addTopScores(skin, topScoreGroup);
 		
-		VerticalGroup buttonGroup = new VerticalGroup();
+		Table buttonGroup = new Table(skin);
 		buttonGroup.setWidth(600);
-		table.add(buttonGroup).align(Align.right);
+		table.add(buttonGroup).align(Align.right + Align.top);
 		addButtons(skin, buttonGroup);
 	}
 	
 	private void addTitle(Skin skin)
 	{
-		table.row().colspan(2).align(Align.center);
+		table.row().colspan(2);
 		Label gameTitle = new Label("Game Title Placeholder", skin);
 		gameTitle.setColor(Color.WHITE);
 		gameTitle.setFontScale(1.5f);
 		table.add(gameTitle).expandX().padBottom(100f);
 	}
 	
-	private static void addButtons(Skin skin, VerticalGroup group)
-	{
-//		table.row().align(Align.center);
-		
-		TextButton singlePlayerBtn = new WidthTextButton("Single Player", skin, 400);
-		group.addActor(singlePlayerBtn);
-		
-		TextButton multiplayerBtn = new WidthTextButton("Multiplayer", skin, 400);
-		group.addActor(multiplayerBtn);
-		
-		TextButton settingsBtn = new WidthTextButton("Settings", skin, 400);
-		group.addActor(settingsBtn);
-		
-		TextButton exitBtn = new WidthTextButton("Exit", skin, 400);
-		group.addActor(exitBtn);
-	}
-
 	private static void addTopScores(Skin skin, Table group)
 	{
-		group.row().colspan(2);
+		group.row().colspan(2).align(Align.center);
 		Label topScoreLabel = new Label("Top Scores", skin);
 		topScoreLabel.setFontScale(1.1f);
-		group.add(topScoreLabel);
+		group.add(topScoreLabel).expandX().padBottom(30);
 		
-		group.row();
+		group.row().align(Align.left);
 		
 		Label topScoreNames = new Label("", skin);
 		topScoreNames.setWrap(true);
@@ -82,6 +70,29 @@ public class StartMenuUi extends UiScreen
 		topScores.setWrap(true);
 		topScores.setText("500\n425\n397");
 		group.add(topScores);
+	}
+	
+	private static void addButtons(Skin skin, Table group)
+	{
+//		table.row().align(Align.center);
+		
+		TextButton singlePlayerBtn = new SizedTextButton("Single Player", skin, 400, 50);
+		group.add(singlePlayerBtn).padBottom(20);
+		
+		group.row();
+		
+		TextButton multiplayerBtn = new SizedTextButton("Multiplayer", skin, 400, 50);
+		group.add(multiplayerBtn).padBottom(20);
+		
+		group.row();
+		
+		TextButton settingsBtn = new SizedTextButton("Settings", skin, 400, 50);
+		group.add(settingsBtn).padBottom(20);
+		
+		group.row();
+		
+		TextButton exitBtn = new SizedTextButton("Exit", skin, 400, 50);
+		group.add(exitBtn);
 	}
 	
 	@Override
@@ -95,14 +106,16 @@ public class StartMenuUi extends UiScreen
 	{
 	}
 	
-	private static class WidthTextButton extends TextButton
+	private static class SizedTextButton extends TextButton
 	{
 		private final float width;
+		private final float height;
 
-		public WidthTextButton(String text, Skin skin, float width)
+		public SizedTextButton(String text, Skin skin, float width, float height)
 		{
 			super(text, skin);
 			this.width = width;
+			this.height = height;
 		}
 		
 		@Override
@@ -123,6 +136,24 @@ public class StartMenuUi extends UiScreen
 			// No max width.
 			return 0;
 		}
-				
+		
+		@Override
+		public float getPrefHeight()
+		{
+			return height;
+		}
+		
+		@Override
+		public float getMinHeight()
+		{
+			return height;
+		}
+		
+		@Override
+		public float getMaxHeight()
+		{
+			// No max height.
+			return 0;
+		}
 	}
 }
