@@ -38,7 +38,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.divergentthoughtsgames.ld31.ui.StartMenuScreen;
-import com.divergentthoughtsgames.ld31.ui.TestUi;
 import com.divergentthoughtsgames.ld31.ui.UiScreen;
 
 public class GameApp extends ApplicationAdapter {
@@ -63,7 +62,17 @@ public class GameApp extends ApplicationAdapter {
 	
 	SpeciesCreationDialog speciesCreationDialog;
 	
-	UiScreen ui;
+	private UiScreen ui;
+	
+	/**
+	 * Sets the UI screen.
+	 * @param screen UI screen. 
+	 */
+	public void setScreen(UiScreen screen)
+	{
+		ui.dispose();
+		this.ui = screen;
+	}
 	
 	@Override
 	public void create () {
@@ -106,7 +115,7 @@ public class GameApp extends ApplicationAdapter {
 	    
 	    speciesCreationDialog = new SpeciesCreationDialog(this, font);
 	    
-	    ui = new StartMenuScreen();
+	    ui = new StartMenuScreen(this);
 	}
 
 	@Override

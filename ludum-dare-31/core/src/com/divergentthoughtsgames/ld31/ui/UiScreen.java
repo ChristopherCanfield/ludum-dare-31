@@ -1,3 +1,19 @@
+/*
+  Copyright 2014 Christopher D. Canfield
+ 
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
 package com.divergentthoughtsgames.ld31.ui;
 
 import com.badlogic.gdx.Gdx;
@@ -5,6 +21,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.divergentthoughtsgames.ld31.GameApp;
 
 /**
  * Base class for ui screens that are drawn in the LWJGL window.
@@ -21,11 +38,14 @@ public abstract class UiScreen
 	
 	protected final Color color;
 	
+	protected final GameApp app;
+	
 	/**
 	 * Default constructor.
 	 */
-	protected UiScreen(Color color)
+	protected UiScreen(GameApp app, Color color)
 	{
+		this.app = app;
 		this.color = color;
 		
 		stage = new Stage();
