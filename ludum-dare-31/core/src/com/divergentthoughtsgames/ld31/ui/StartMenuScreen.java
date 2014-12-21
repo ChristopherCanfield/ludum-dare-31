@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.divergentthoughtsgames.ld31.AppState;
 import com.divergentthoughtsgames.ld31.GameApp;
 
 public class StartMenuScreen extends UiScreen
@@ -89,6 +90,11 @@ public class StartMenuScreen extends UiScreen
 	{
 		TextButton singlePlayerBtn = new SizedTextButton("Single Player", skin, 400, 50);
 		group.add(singlePlayerBtn).padBottom(20);
+		singlePlayerBtn.addListener(new ClickListener() {
+			@Override public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				app.setAppState(AppState.ActiveGame);
+			}
+		});
 		
 		group.row();
 		

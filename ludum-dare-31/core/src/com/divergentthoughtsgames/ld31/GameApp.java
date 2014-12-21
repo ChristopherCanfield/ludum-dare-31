@@ -74,6 +74,19 @@ public class GameApp extends ApplicationAdapter {
 		this.ui = screen;
 	}
 	
+	public void setAppState(AppState state)
+	{
+		ui.dispose();
+		ui = null;
+		
+		if (state == AppState.ActiveGame && appState != AppState.ActiveGame)
+		{
+			Gdx.input.setInputProcessor(new InputEventProcessor(this, camera));
+		}
+		
+		appState = state;
+	}
+	
 	@Override
 	public void create () {
 		fpsLogger = new FPSLogger();
@@ -94,8 +107,6 @@ public class GameApp extends ApplicationAdapter {
 		
 		GameWorld.initialize();
 		
-		Gdx.input.setInputProcessor(new InputEventProcessor(this, camera));
-		
 		GameWorld.physicsWorld = new World(new Vector2(Screen.Size.x, Screen.Size.y), true);
 		
 		rayHandler = new RayHandler(GameWorld.physicsWorld);
@@ -107,7 +118,11 @@ public class GameApp extends ApplicationAdapter {
 	    
 	    GameWorld.organisms = new ArrayList<Organism>();
 	    GameWorld.organisms.add(new Organism());
-	    GameWorld.organisms.get(0).setX(Screen.Zero.x + 100).setY(Screen.Zero.y + 300);
+	    GameWorld.organisms.get(0).setX(Screen.Zero.x + 200).setY(Screen.Zero.y + 200);
+	    GameWorld.organisms.add(new Organism());
+	    GameWorld.organisms.get(1).setX(Screen.Zero.x + 100).setY(Screen.Zero.y + 300);
+	    GameWorld.organisms.add(new Organism());
+	    GameWorld.organisms.get(2).setX(Screen.Zero.x + 100).setY(Screen.Zero.y + 150);
 	    
 	    FileHandle fntFile = Gdx.files.internal("arial_36_bold.fnt");
 	    FileHandle pngFile = Gdx.files.internal("arial_36_bold.png");
@@ -150,10 +165,10 @@ public class GameApp extends ApplicationAdapter {
 			drawNodes();
 			drawPaths();
 			
-			if (appState == AppState.Active)
-			{
-				rayHandler.updateAndRender();
-			}
+//			if (appState == AppState.ActiveGame)
+//			{
+//				rayHandler.updateAndRender();
+//			}
 			
 			drawUi();
 			
