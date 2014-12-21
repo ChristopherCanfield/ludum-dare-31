@@ -22,6 +22,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Tree;
+import com.badlogic.gdx.scenes.scene2d.ui.Tree.Node;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.divergentthoughtsgames.ld31.GameApp;
 
 public class MultiplayerMenuScreen extends UiScreen
@@ -41,7 +44,7 @@ public class MultiplayerMenuScreen extends UiScreen
 		addTitle(skin);
 		addNameField(skin);
 		addCreateGameButton(skin);
-		addJoinGameButton(skin);
+		addJoinGameSection(skin);
 	}
 	
 	private void addTitle(Skin skin)
@@ -55,7 +58,7 @@ public class MultiplayerMenuScreen extends UiScreen
 	
 	private void addNameField(Skin skin)
 	{
-		table.row();
+		table.row().align(Align.top);
 		
 		Label nameLabel = new Label("Name:", skin);
 		nameLabel.setFontScale(1.0f);
@@ -67,11 +70,26 @@ public class MultiplayerMenuScreen extends UiScreen
 	
 	private void addCreateGameButton(Skin skin)
 	{
+		table.row();
 		
+		Tree tree = new Tree(skin);
+		Node node1 = new Node(new Label("Test 1", skin));
+		tree.add(node1);
+		Node node2 = new Node(new Label("Test 2", skin));
+		tree.add(node2);
+		
+		node1.add(new Node(new Label("Test Test Test 1", skin)));
+		node1.add(new Node(new Label("Test Test 2 2", skin)));
+		
+		node2.add(new Node(new Label("321 34123 2", skin)));
+		node2.add(new Node(new Label("Test 2 2 2", skin)));
+		
+		table.add(tree);
 	}
 	
-	private void addJoinGameButton(Skin skin)
+	private void addJoinGameSection(Skin skin)
 	{
+		table.row();
 		
 	}
 	
