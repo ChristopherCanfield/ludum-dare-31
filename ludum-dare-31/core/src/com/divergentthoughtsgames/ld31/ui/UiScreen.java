@@ -41,7 +41,9 @@ public abstract class UiScreen
 	protected final GameApp app;
 	
 	/**
-	 * Default constructor.
+	 * Constructs a user interface screen.
+	 * @param app reference to the GameApp instance.
+	 * @param color the screen's clear color.
 	 */
 	protected UiScreen(GameApp app, Color color)
 	{

@@ -43,8 +43,8 @@ public class GameWorld
 	public static List<Node> nodeList;
 	public static Node[][] nodes;
 	
-	public static final int columns = 1920/Node.Size;
-	public static final int rows = 1080/Node.Size;
+	public static final int columns = (int)(Screen.Size.x/Node.Size);
+	public static final int rows = (int)(Screen.Size.y/Node.Size);
 	
 	public static void initialize()
 	{

@@ -20,5 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Screen
 {
+	public static Vector2 Size = new Vector2(1920, 1080);
+	
 	public static Vector2 Zero;
 }

@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree.Node;
@@ -29,6 +30,10 @@ import com.divergentthoughtsgames.ld31.GameApp;
 
 public class MultiplayerMenuScreen extends UiScreen
 {
+	/**
+	 * Constructs a multiplayer menu screen.
+	 * @param app reference to the GameApp instance.
+	 */
 	public MultiplayerMenuScreen(GameApp app)
 	{
 		super(app, new Color(0.5f, 0.5f, 0.5f, 1.f));
@@ -89,8 +94,32 @@ public class MultiplayerMenuScreen extends UiScreen
 	
 	private void addJoinGameSection(Skin skin)
 	{
-		rootTable.row();
+		rootTable.row().align(Align.center);
 		
+		Table serverTableContainer = new Table(skin);
+		serverTableContainer.row().align(Align.left);
+		
+		Table serverTable = new Table(skin);
+		serverTableContainer.add(serverTable);
+		
+		// Column headers.
+		serverTable.row().align(Align.left);
+		serverTable.add().pad(15, 10, 10, 10); // The server number.
+		serverTable.add(new Label("Server Name", skin)).pad(15, 10, 10, 10);
+		serverTable.add(new Label("IP Address", skin)).pad(15, 10, 10, 10);
+		
+		// Server list.
+		serverTable.row().align(Align.left);
+		serverTable.add(new Label("1", skin)).pad(5, 10, 5, 10);
+		serverTable.add(new Label("Chris's Server", skin)).pad(5, 10, 5, 10);
+		serverTable.add(new Label("192.168.1.107", skin)).pad(5, 10, 5, 10);
+		
+		serverTable.row().align(Align.left);
+		serverTable.add(new Label("2", skin)).pad(5, 10, 5, 10);
+		serverTable.add(new Label("Canfield's Server", skin)).pad(5, 10, 5, 10);
+		serverTable.add(new Label("192.168.1.107", skin)).pad(5, 10, 5, 10);
+		
+		rootTable.add(serverTableContainer);
 	}
 	
 	@Override

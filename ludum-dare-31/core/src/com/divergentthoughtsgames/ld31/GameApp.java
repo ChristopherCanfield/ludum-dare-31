@@ -86,7 +86,7 @@ public class GameApp extends ApplicationAdapter {
 		Textures.load();
 		
 		camera = new OrthographicCamera();
-		viewport = new StretchViewport(1920, 1080, camera);
+		viewport = new StretchViewport(Screen.Size.x, Screen.Size.y, camera);
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		
@@ -96,7 +96,7 @@ public class GameApp extends ApplicationAdapter {
 		
 		Gdx.input.setInputProcessor(new InputEventProcessor(this, camera));
 		
-		GameWorld.physicsWorld = new World(new Vector2(1920, 1080), true);
+		GameWorld.physicsWorld = new World(new Vector2(Screen.Size.x, Screen.Size.y), true);
 		
 		rayHandler = new RayHandler(GameWorld.physicsWorld);
 		rayHandler.setCombinedMatrix(camera.combined);
