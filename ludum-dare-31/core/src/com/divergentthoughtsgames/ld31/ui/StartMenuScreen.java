@@ -39,30 +39,30 @@ public class StartMenuScreen extends UiScreen
 		
 		addTitle(skin);
 		
-		table.setFillParent(true);
+		rootTable.setFillParent(true);
 		
-		table.padLeft(20);
-		table.padRight(20);
+		rootTable.padLeft(20);
+		rootTable.padRight(20);
 		
-		table.row();
+		rootTable.row();
 		
 		Table topScoreGroup = new Table(skin);
-		table.add(topScoreGroup).align(Align.left + Align.top).width(500);
+		rootTable.add(topScoreGroup).align(Align.left + Align.top).width(500);
 		addTopScores(skin, topScoreGroup);
 		
 		Table buttonGroup = new Table(skin);
 		buttonGroup.setWidth(600);
-		table.add(buttonGroup).align(Align.right + Align.top);
+		rootTable.add(buttonGroup).align(Align.right + Align.top);
 		addButtons(skin, buttonGroup);
 	}
 	
 	private void addTitle(Skin skin)
 	{
-		table.row().colspan(2);
+		rootTable.row().colspan(2);
 		Label gameTitle = new Label("Game Title Placeholder", skin);
 		gameTitle.setColor(Color.WHITE);
 		gameTitle.setFontScale(1.5f);
-		table.add(gameTitle).expandX().padBottom(100f);
+		rootTable.add(gameTitle).expandX().padBottom(100f);
 	}
 	
 	private static void addTopScores(Skin skin, Table group)

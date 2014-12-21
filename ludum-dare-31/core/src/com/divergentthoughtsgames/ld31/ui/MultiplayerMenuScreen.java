@@ -36,10 +36,10 @@ public class MultiplayerMenuScreen extends UiScreen
 		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("ui/uiskin.atlas"));
 		Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"), atlas);
 		
-		table.setFillParent(true);
+		rootTable.setFillParent(true);
 		
-		table.padLeft(20);
-		table.padRight(20);
+		rootTable.padLeft(20);
+		rootTable.padRight(20);
 		
 		addTitle(skin);
 		addNameField(skin);
@@ -49,28 +49,28 @@ public class MultiplayerMenuScreen extends UiScreen
 	
 	private void addTitle(Skin skin)
 	{
-		table.row().colspan(2);
+		rootTable.row().colspan(2);
 		Label title = new Label("Multiplayer Game", skin);
 		title.setColor(Color.WHITE);
 		title.setFontScale(1.5f);
-		table.add(title).expandX().padBottom(100f);
+		rootTable.add(title).expandX().padBottom(100f);
 	}
 	
 	private void addNameField(Skin skin)
 	{
-		table.row().align(Align.top);
+		rootTable.row().align(Align.top);
 		
 		Label nameLabel = new Label("Name:", skin);
 		nameLabel.setFontScale(1.0f);
-		table.add(nameLabel).padBottom(30);
+		rootTable.add(nameLabel).padBottom(30);
 		
 		TextField nameField = new TextField("", skin);
-		table.add(nameField);
+		rootTable.add(nameField);
 	}
 	
 	private void addCreateGameButton(Skin skin)
 	{
-		table.row();
+		rootTable.row();
 		
 		Tree tree = new Tree(skin);
 		Node node1 = new Node(new Label("Test 1", skin));
@@ -84,12 +84,12 @@ public class MultiplayerMenuScreen extends UiScreen
 		node2.add(new Node(new Label("321 34123 2", skin)));
 		node2.add(new Node(new Label("Test 2 2 2", skin)));
 		
-		table.add(tree);
+		rootTable.add(tree);
 	}
 	
 	private void addJoinGameSection(Skin skin)
 	{
-		table.row();
+		rootTable.row();
 		
 	}
 	

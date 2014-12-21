@@ -34,7 +34,7 @@ public abstract class UiScreen
 	protected final Stage stage;
 	
 	/** The base table for the screen. **/
-	protected final Table table;
+	protected final Table rootTable;
 	
 	protected final Color color;
 	
@@ -49,11 +49,11 @@ public abstract class UiScreen
 		this.color = color;
 		
 		stage = new Stage();
-		table = new Table();
+		rootTable = new Table();
 
-		table.setFillParent(true);
-		table.top();
-	    stage.addActor(table);
+		rootTable.setFillParent(true);
+		rootTable.top();
+	    stage.addActor(rootTable);
 		
 		Gdx.input.setInputProcessor(stage);
 	}
@@ -78,7 +78,7 @@ public abstract class UiScreen
 	 */
 	public final void update(boolean debug)
 	{
-		table.setDebug(debug, true);
+		rootTable.setDebug(debug, true);
 		
 		stage.act();
 		onUpdate();
