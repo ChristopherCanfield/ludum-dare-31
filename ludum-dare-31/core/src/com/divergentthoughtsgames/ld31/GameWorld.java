@@ -99,6 +99,7 @@ public class GameWorld
 	 * @param columns the number of columns in the map.
 	 * @param rows the number of rows in the map.
 	 */
+	@SuppressWarnings("hiding")
 	private static void createNavGraph(List<Node> nodeList, Node[][] nodes, int columns, int rows)
 	{
 		// Build the navigation graph. 0,0 = bottom left.
@@ -124,6 +125,7 @@ public class GameWorld
 	 * @param column the node's column.
 	 * @param columns the number of columns in the navigation graph.
 	 */
+	@SuppressWarnings("hiding")
 	private static void addEdges(Node[][] nodes, int row, int column, int columns)
 	{
 		Node node = nodes[column][row];
